@@ -19,7 +19,7 @@ while c <= n:
             if hora1 > hora:
                 HE = (hora1 - 40) * 0.3
                 JE = hora_x_opcion[opcion] * HE
-                sueldo = (hora_x_opcion[opcion] * hora1) + JE 
+                sueldo = hora_x_opcion[opcion] * hora1 + JE 
             valido = True
             break
         else:
