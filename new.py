@@ -9,7 +9,7 @@ while c <= n:
     valido = False
     i = 1
     while not valido:
-    	if opcion > 0 and opcion < 4:
+        if opcion > 0 and opcion < 4:
             HE = 0
             JE = 0
             sueldo = hora_x_opcion[opcion] * hora
