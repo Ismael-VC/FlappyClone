@@ -7,7 +7,6 @@ while c <= n:
     hora = 40
     hora_x_opcion = {1:10,2:12,3:14}
     valido = False
-    i = 1
     while not valido:
         if opcion > 0 and opcion < 4:
             HE = 0
