@@ -1,11 +1,8 @@
 #! /usr/bin/python
-#encoding:utf-8
+#encoding: utf-8
 
-# Cálculo del Área de cualquier triángulo definido por coordenadas cartesianas
-# Se utilizó la Fórmula de Herón (http://es.wikipedia.org/wiki/F%C3%B3rmula_de_Her%C3%B3n)
-
-__author__="Dj_System"
-__date__ ="$05/11/2014 01:30:39 AM$"
+__author__ = "Dj_System"
+__date__ = "$05/11/2014 01:30:39 AM$"
 
 from utilities import *
 
@@ -19,8 +16,8 @@ def main():
     y = []
 
     for i in range(1, 4):
-        x.append(float(raw_input('x'+str(i)+'=')))
-        y.append(float(raw_input('y'+str(i)+'=')))
+        x.append(float(raw_input('x' + str(i) + '=')))
+        y.append(float(raw_input('y' + str(i) + '=')))
 
     # process
 	
