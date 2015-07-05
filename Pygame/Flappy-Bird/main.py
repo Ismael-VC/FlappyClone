@@ -10,7 +10,7 @@ ancho_ventana = 600
 def main():
     pygame.init()
     # (*)Adaptar imagen a la ventana http://www.pygame.org/wiki/WindowResizing
-    ventana = pygame.display.set_mode((largo_ventana, ancho_ventana), HWSURFACE|DOUBLEBUF|RESIZABLE) #*
+    ventana = pygame.display.set_mode((largo_ventana, ancho_ventana), HWSURFACE|DOUBLEBUF) #*
     pygame.display.set_caption('Flappy Bird')
     fondo = Imagen('img/background.png', [0, 0])
     tubo = Imagen('img/pipe.png', [100, 400])
