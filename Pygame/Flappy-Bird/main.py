@@ -13,21 +13,23 @@ def main():
     ventana = pygame.display.set_mode((largo_ventana, ancho_ventana), HWSURFACE|DOUBLEBUF) #*
     pygame.display.set_caption('Flappy Bird')
     fondo = Imagen('img/background.png', [0, 0])
+    logo = Imagen('img/logo.png', [200, 200])
     tubo = Imagen('img/pipe.png', [100, 400])
     imagen_ave = 'img/bird1.png'
+    ventana.blit(pygame.transform.scale(fondo.image, (largo_ventana, 500)), fondo.rect) #*
+    ventana.blit(logo.image, logo.rect)
+    ventana.blit(pygame.transform.scale(pygame.transform.flip(tubo.image, True, True), (50, 300)), pygame.Rect(100, 0, tubo.rect.width, tubo.rect.height))
+    ventana.blit(pygame.transform.scale(tubo.image, (50, 300)), tubo.rect)
     estado = 1
     posX = largo_ventana + 25
     posY = 330
-    while True:
-	    ventana.blit(pygame.transform.scale(fondo.image, (largo_ventana, 500)), fondo.rect) #*
-	    ventana.blit(pygame.transform.scale(tubo.image, (50, 300)), tubo.rect)
+    while True:	    
 	    for i in range(1, 16):
 		    piso = Imagen('img/ground.png', [posX - 25 * i, 500])
 		    ventana.blit(pygame.transform.scale(piso.image, (25, 100)), piso.rect)
 	    posX -= 5
 	    if posX < largo_ventana:
-		    posX = largo_ventana + 25
-	    ventana.blit(pygame.transform.scale(pygame.transform.flip(tubo.image, True, True), (50, 300)), pygame.Rect(100, 0, tubo.rect.width, tubo.rect.height))	    
+		    posX = largo_ventana + 25	    	    
 	    if estado == 5:
 		    imagen_ave = 'img/bird1.png'
 	    elif estado == 10:
