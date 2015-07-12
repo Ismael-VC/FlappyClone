@@ -1,52 +1,63 @@
 #! /usr/bin/python
 
-import pygame, sys
+from classes import *
 from pygame.locals import *
-from classes import Imagen
+from random import randint
+import pygame, sys
 
-largo_ventana = 350
-ancho_ventana = 600
+ancho_ventana, ancho_logo, ancho_piso, ancho_tubo = 400, 200, 25, 50
+alto_ventana, alto_fondo, alto_logo, alto_tubo = 550, 450, 50, 300
+#ancho_ave, alto_ave = 40, 30
+pos_fondo = (0, 0)
+pos_logo = (100, 100)
+posY_tubo_min, posY_tubo_max = 400, 150
+distanciaX_tubos, distanciaY_tubos = 175, 100
+velocidad = 3
+cuadros_x_segundo = 40
 
 def main():
     pygame.init()
-    # (*)Adaptar imagen a la ventana http://www.pygame.org/wiki/WindowResizing
-    ventana = pygame.display.set_mode((largo_ventana, ancho_ventana), HWSURFACE|DOUBLEBUF) #*
+	# (*)Adaptar imagen a la ventana http://www.pygame.org/wiki/WindowResizing
+    ventana = pygame.display.set_mode((ancho_ventana, alto_ventana), DOUBLEBUF) #*
     pygame.display.set_caption('Flappy Bird')
-    fondo = Imagen('img/background.png', [0, 0])
-    logo = Imagen('img/logo.png', [200, 200])
-    tubo = Imagen('img/pipe.png', [100, 400])
-    imagen_ave = 'img/bird1.png'
-    ventana.blit(pygame.transform.scale(fondo.image, (largo_ventana, 500)), fondo.rect) #*
-    ventana.blit(logo.image, logo.rect)
-    ventana.blit(pygame.transform.scale(pygame.transform.flip(tubo.image, True, True), (50, 300)), pygame.Rect(100, 0, tubo.rect.width, tubo.rect.height))
-    ventana.blit(pygame.transform.scale(tubo.image, (50, 300)), tubo.rect)
-    estado = 1
-    posX = largo_ventana + 25
-    posY = 330
-    while True:	    
-	    for i in range(1, 16):
-		    piso = Imagen('img/ground.png', [posX - 25 * i, 500])
-		    ventana.blit(pygame.transform.scale(piso.image, (25, 100)), piso.rect)
-	    posX -= 5
-	    if posX < largo_ventana:
-		    posX = largo_ventana + 25	    	    
-	    if estado == 5:
-		    imagen_ave = 'img/bird1.png'
-	    elif estado == 10:
-		    imagen_ave = 'img/bird2.png'
-	    elif estado == 15:
-		    imagen_ave = 'img/bird3.png'
-	    if estado != 15:
-		    estado += 1
+    fondo = Imagen('img/background.png', ancho_ventana, alto_fondo) #*
+    logo = Imagen('img/logo.png', ancho_logo, alto_logo)
+    piso = Imagen('img/ground.png', ancho_piso, alto_ventana - alto_fondo)
+    #imagenes_ave = ['img/bird1.png', 'img/bird2.png', 'img/bird3.png']
+    tubo = Imagen('img/pipe.png', ancho_tubo, alto_tubo)
+    tubos = [pygame.transform.flip(tubo.image, False, True), tubo.image]
+    posX_piso = 2 * ancho_ventana
+    enc = False
+    posX_tubo1, posY_tubo1 = ancho_ventana, randint(posY_tubo_max, posY_tubo_min)
+    posX_tubo2, posY_tubo2 = posX_tubo1 + ancho_tubo + distanciaX_tubos, randint(posY_tubo_max, posY_tubo_min)
+    while True:
+	    ventana.blit(fondo.image, pos_fondo)
+	    if not enc:
+		    ventana.blit(logo.image, pos_logo)
 	    else:
-		    estado = 1
-	    ave = Imagen(imagen_ave, [105, posY])
-	    ventana.blit(pygame.transform.scale(ave.image, (40, 30)), ave.rect)
+		    ventana.blit(tubos[0], (posX_tubo1, posY_tubo1 - distanciaY_tubos - alto_tubo))
+		    ventana.blit(tubos[1], (posX_tubo1, posY_tubo1))
+		    ventana.blit(tubos[0], (posX_tubo2, posY_tubo2 - distanciaY_tubos - alto_tubo))
+		    ventana.blit(tubos[1], (posX_tubo2, posY_tubo2))
+		    posX_tubo1 -= velocidad
+		    posX_tubo2 -= velocidad
+		    if posX_tubo1 < -1 * ancho_tubo:
+			    posX_tubo1, posY_tubo1 = ancho_ventana, randint(posY_tubo_max, posY_tubo_min)		    
+		    if posX_tubo2 < -1 * ancho_tubo:
+			    posX_tubo2, posY_tubo2 = posX_tubo1 + ancho_tubo + distanciaX_tubos, randint(posY_tubo_max, posY_tubo_min)
+	    for i in range(1, 2 * ancho_ventana / ancho_piso + 2):
+		    ventana.blit(piso.image, pygame.Rect(posX_piso - ancho_piso * i, alto_fondo, ancho_piso, alto_ventana - alto_fondo))
+	    posX_piso -= velocidad
+	    if posX_piso < ancho_ventana:
+		    posX_piso = 2 * ancho_ventana
 	    for event in pygame.event.get():
 		    if event.type == QUIT:
 			    pygame.quit()
-			    sys.exit()	    
+			    sys.exit()
+		    elif event.type == pygame.MOUSEBUTTONDOWN:
+			    enc = True
 	    pygame.display.update()
+	    pygame.time.Clock().tick(cuadros_x_segundo)
 
 if __name__ == "__main__":
     main()
